@@ -1,0 +1,19 @@
+{% set tags = ['locales', 'ubuntu'] %}
+
+<h1>
+    Configuring locales on Ubuntu
+</h1>
+<p>
+    The first step is to find which locales you want to generate on your system:
+    <pre>grep fr /usr/share/i18n/SUPPORTED</pre>
+</p>
+<p>
+    Add the chosen ones in the <code>/var/lib/locales/supported.d/local</code> file.
+</p>
+<p>
+    Then generate the locales:
+    <pre>locale-gen --purge</pre>
+</p>
+<p>
+    Finally, you can verify which locales are available with the <code>locale -a</code> command.
+</p>
