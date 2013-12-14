@@ -2,15 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}title{% endblock %}</title>
     </head>
     <body>
         <header>
-            {% block header %}{% endblock %}
+            {% block header %}header{% endblock %}
         </header>
-        {% block content %}{% endblock %}
+        {% block content %}content{% endblock %}
         <footer>
-            {% block footer %}{% endblock %}
+            {% block footer %}footer{% endblock %}
         </footer>
     </body>
 </html>

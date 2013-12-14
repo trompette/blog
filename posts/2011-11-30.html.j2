@@ -1,11 +1,14 @@
+{% extends 'post.html.j2' %}
+
 {% set tags = ['dev', 'sid', 'android'] %}
 
+{% block article %}
 <h1>
     Configuring Eclipse for Android development on Debian Unstable
-<h1>
+</h1>
 <p>
     First of all, you will need Eclipse. Install it using the package manager:
-    <pre>aptitude install eclipse<pre>
+    <pre>aptitude install eclipse</pre>
 </p>
 <p>
     Then, follow <a href="http://developer.android.com/sdk/eclipse-adt.html#downloading">this tutorial</a> to install the Android Development Tools (ADT) plugin.
@@ -17,3 +20,4 @@
 <p>
     You're now good to go!
 </p>
+{% endblock %}

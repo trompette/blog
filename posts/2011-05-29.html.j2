@@ -1,5 +1,8 @@
+{% extends 'post.html.j2' %}
+
 {% set tags = ['locales', 'ubuntu'] %}
 
+{% block article %}
 <h1>
     Configuring locales on Ubuntu
 </h1>
@@ -17,3 +20,4 @@
 <p>
     Finally, you can verify which locales are available with the <code>locale -a</code> command.
 </p>
+{% endblock %}

@@ -1,8 +1,11 @@
+{% extends 'post.html.j2' %}
+
 {% set tags = ['dev', 'sid', 'sf2'] %}
 
+{% block article %}
 <h1>
     Setting up a Symfony2 development environment on Debian Unstable
-<h1>
+</h1>
 <p>
     First of all, you need to install some PHP packages:
     <pre>aptitude install php5-cli php5-curl php5-intl php5-sqlite php-pear</pre>
@@ -21,3 +24,4 @@
 <p>
     And it is all there is to it. Now you can contribute!
 </p>
+{% endblock %}

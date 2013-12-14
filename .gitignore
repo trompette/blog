@@ -1,8 +1,5 @@
 *.py[cod]
 
-# C extensions
-*.so
-
 # Packages
 *.egg
 *.egg-info
@@ -27,11 +24,8 @@ pip-log.txt
 .tox
 nosetests.xml
 
-# Translations
-*.mo
-
 # Mr Developer
 .idea
-.mr.developer.cfg
-.project
-.pydevproject
+
+# Generated HTML files
+web/*.html
