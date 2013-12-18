@@ -1,6 +1,7 @@
 __version__ = '0.0.1-dev'
 
 import jinja2
+import jinja2_highlight
 import os
 import rendering
 
@@ -11,7 +12,8 @@ class Engine(object):
         self.posts_dir = posts_dir
         self.templates_dir = templates_dir
         self.web_dir = web_dir
-        self.environment = jinja2.Environment(loader=jinja2.FileSystemLoader([pages_dir, posts_dir, templates_dir]))
+        self.environment = jinja2.Environment(loader=jinja2.FileSystemLoader([pages_dir, posts_dir, templates_dir]),
+                                              extensions=[jinja2_highlight.HighlightExtension])
         self.logger = logger
         self.blog = Blog(logger)
 

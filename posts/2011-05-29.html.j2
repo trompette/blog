@@ -8,14 +8,14 @@
 </h1>
 <p>
     The first step is to find which locales you want to generate on your system:
-    <pre>grep fr /usr/share/i18n/SUPPORTED</pre>
+    {% highlight 'shell-session' %}grep fr /usr/share/i18n/SUPPORTED{% endhighlight %}
 </p>
 <p>
     Add the chosen ones in the <code>/var/lib/locales/supported.d/local</code> file.
 </p>
 <p>
     Then generate the locales:
-    <pre>locale-gen --purge</pre>
+    {% highlight 'shell-session' %}locale-gen --purge{% endhighlight %}
 </p>
 <p>
     Finally, you can verify which locales are available with the <code>locale -a</code> command.
