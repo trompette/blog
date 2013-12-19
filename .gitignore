@@ -27,5 +27,5 @@ nosetests.xml
 # Mr Developer
 .idea
 
-# Generated HTML files
-web/*.html
+# Generated files
+web/*
