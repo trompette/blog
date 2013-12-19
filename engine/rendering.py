@@ -1,17 +1,29 @@
 import os
 
+def dump_file(engine, file, template, vars={}):
+    engine.logger.debug('Dumping %s', file)
+    with open(os.path.join(engine.web_dir, file), 'w') as f:
+        f.write(template.render(vars))
+
+def default_strategy(page, engine):
+    dump_file(engine=engine,
+              file=page['name'],
+              template=page['template'])
+
 def blog_strategy(page, engine):
-    engine.logger.debug('Dumping %s', page['name'])
-    with open(os.path.join(engine.web_dir, page['name']), 'w') as f:
-        f.write(page['template'].render(blog=engine.blog))
+    dump_file(engine=engine,
+              file=page['name'],
+              template=page['template'],
+              vars={'blog': engine.blog})
 
 def post_strategy(page, engine):
     for post in engine.blog.posts.itervalues():
-        engine.logger.debug('Dumping %s', post['name'])
-        with open(os.path.join(engine.web_dir, post['name']), 'w') as f:
-            f.write(post['template'].render())
+        dump_file(engine=engine,
+                  file=post['name'],
+                  template=post['template'])
 
 strategies = {
+    'default': default_strategy,
     'blog': blog_strategy,
     'post': post_strategy,
 }

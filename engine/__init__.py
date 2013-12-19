@@ -45,17 +45,19 @@ class Blog(object):
 
     def add_page(self, name, template):
         self.logger.debug('Adding page %s', name)
+        strategy = getattr(template.module, 'strategy', 'default')
         self.pages[name] = {
             'name': name,
-            'strategy': template.module.strategy,
+            'strategy': strategy,
             'template': template,
         }
 
     def add_post(self, name, template):
         self.logger.debug('Adding post %s', name)
+        tags = getattr(template.module, 'tags', [])
         self.posts[name] = {
             'name': name,
-            'tags': template.module.tags,
+            'tags': tags,
             'template': template,
         }
         for tag in template.module.tags:
