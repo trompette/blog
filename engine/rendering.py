@@ -1,7 +1,10 @@
+import logging
 import os
 
+logger = logging.getLogger('blog-engine')
+
 def dump_file(engine, file, template, vars={}):
-    engine.logger.debug('Dumping %s', file)
+    logger.debug('Dumping %s', file)
     with open(os.path.join(engine.web_dir, file), 'w') as f:
         f.write(template.render(vars))
 
