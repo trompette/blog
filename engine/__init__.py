@@ -59,7 +59,7 @@ class Blog(object):
             'tags': tags,
             'template': template,
         }
-        for tag in template.module.tags:
+        for tag in tags:
             self.add_tag(tag, name)
 
     def add_tag(self, name, post):
