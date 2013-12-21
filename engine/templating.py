@@ -14,20 +14,14 @@ class HighlightExtension(Extension):
 
     def parse(self, parser):
         lineno = parser.stream.next().lineno
-
-        if not parser.stream.current.test('block_end'):
-            lang = parser.parse_expression()
-        else:
-            lang = Const(None)
-
-        call = self.call_method('_highlight', [lang])
+        lang = Const(None) if parser.stream.current.test('block_end') else parser.parse_expression()
+        call = self.call_method('highlight_code', [lang])
         body = parser.parse_statements(['name:endhighlight'], drop_needle=True)
 
         return CallBlock(call, [], [], body).set_lineno(lineno)
 
-    def _highlight(self, lang, caller):
-        code = caller()
-
+    def highlight_code(self, lang, caller):
+        code = self.cleanup_code(caller())
         try:
             lexer = get_lexer_by_name(lang, stripall=False)
         except ClassNotFound:
@@ -35,6 +29,18 @@ class HighlightExtension(Extension):
             lexer = guess_lexer(code)
 
         return highlight(Markup(code).unescape(), lexer, get_formatter_by_name('html'))
+
+    def cleanup_code(self, code):
+        # removing empty ending lines
+        code = code.rstrip()
+        # replacing tabs by spaces
+        code = code.expandtabs(4)
+        # fixing indentation
+        lines = code.splitlines()
+        indent = min(map(lambda s: len(s)-len(s.lstrip(' ')) if s else float('inf'), lines))
+        code = '\n'.join(map(lambda s: s[indent:] if s else '', lines))
+
+        return code
 
 def pygments_style(style):
     try:
