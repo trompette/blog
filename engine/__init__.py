@@ -1,9 +1,9 @@
 __version__ = '0.0.1-dev'
 
-import jinja2_blog
 import logging
 import os
 import rendering
+import templating
 
 logger = logging.getLogger('blog-engine')
 
@@ -13,7 +13,7 @@ class Engine(object):
         self.posts_dir = posts_dir
         self.templates_dir = templates_dir
         self.web_dir = web_dir
-        self.environment = jinja2_blog.getEnvironment(dirs=[pages_dir, posts_dir, templates_dir])
+        self.environment = templating.getEnvironment(dirs=[pages_dir, posts_dir, templates_dir])
         self.blog = Blog()
 
     def read_pages(self):
