@@ -6,8 +6,13 @@ strategy: blog
 
 {% block content %}
 <section>
-    <p>
-        List of posts
-    </p>
+    <ol>
+        {% for post in blog.list_posts() %}
+        <li>
+            <a href="{{ post.name }}">{{ post.name }}</a>
+            <small>{{ post.metadata.tags|join(', ') }}</small>
+        </li>
+        {% endfor %}
+    </ol>
 </section>
 {% endblock %}

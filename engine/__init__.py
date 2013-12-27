@@ -75,6 +75,9 @@ class Blog(object):
             }
         self.tags[name]['posts'].append(post)
 
+    def list_posts(self):
+        return reversed(self.posts.values())
+
 
 def get_metadata(template, default={}):
     if 'metadata' in template.blocks:
