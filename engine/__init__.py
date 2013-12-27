@@ -8,13 +8,14 @@ import yaml
 
 logger = logging.getLogger('blog-engine')
 
+
 class Engine(object):
     def __init__(self, pages_dir, posts_dir, templates_dir, web_dir):
         self.pages_dir = pages_dir
         self.posts_dir = posts_dir
         self.templates_dir = templates_dir
         self.web_dir = web_dir
-        self.environment = templating.getEnvironment(dirs=[pages_dir, posts_dir, templates_dir])
+        self.environment = templating.get_environment([pages_dir, posts_dir, templates_dir])
         self.blog = Blog()
 
     def read_pages(self):
@@ -37,6 +38,7 @@ class Engine(object):
         self.read_pages()
         self.read_posts()
         self.render_pages()
+
 
 class Blog(object):
     def __init__(self):
@@ -66,12 +68,13 @@ class Blog(object):
 
     def add_tag(self, name, post):
         logger.debug('Adding tag %s', name)
-        if not self.tags.has_key(name):
+        if not name in self.tags:
             self.tags[name] = {
                 'name': name,
                 'posts': [],
             }
         self.tags[name]['posts'].append(post)
+
 
 def get_metadata(template, default={}):
     if 'metadata' in template.blocks:

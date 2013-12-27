@@ -9,6 +9,7 @@ from pygments.util import ClassNotFound
 
 logger = getLogger('blog-engine')
 
+
 class HighlightExtension(Extension):
     tags = set(['highlight'])
 
@@ -42,6 +43,7 @@ class HighlightExtension(Extension):
 
         return code
 
+
 def pygments_style(style):
     try:
         string = get_formatter_by_name('html', style=style).get_style_defs('.highlight')
@@ -51,7 +53,8 @@ def pygments_style(style):
 
     return string
 
-def getEnvironment(dirs):
+
+def get_environment(dirs):
     env = Environment(loader=FileSystemLoader(dirs),
                       extensions=[HighlightExtension])
     env.globals['pygments_style'] = pygments_style
