@@ -4,6 +4,7 @@ import logging
 import os
 import rendering
 import templating
+import yaml
 
 logger = logging.getLogger('blog-engine')
 
@@ -29,7 +30,8 @@ class Engine(object):
     def render_pages(self):
         logger.info('Rendering pages...')
         for page in self.blog.pages.itervalues():
-            rendering.strategies[page['strategy']](page, self)
+            strategy = page['metadata']['strategy']
+            rendering.strategies[strategy](page, self)
 
     def start(self):
         self.read_pages()
@@ -44,22 +46,22 @@ class Blog(object):
 
     def add_page(self, name, template):
         logger.debug('Adding page %s', name)
-        strategy = getattr(template.module, 'strategy', 'default')
+        metadata = get_metadata(template, {'strategy': 'default'})
         self.pages[name] = {
             'name': name,
-            'strategy': strategy,
+            'metadata': metadata,
             'template': template,
         }
 
     def add_post(self, name, template):
         logger.debug('Adding post %s', name)
-        tags = getattr(template.module, 'tags', [])
+        metadata = get_metadata(template, {'tags': []})
         self.posts[name] = {
             'name': name,
-            'tags': tags,
+            'metadata': metadata,
             'template': template,
         }
-        for tag in tags:
+        for tag in metadata['tags']:
             self.add_tag(tag, name)
 
     def add_tag(self, name, post):
@@ -70,3 +72,13 @@ class Blog(object):
                 'posts': [],
             }
         self.tags[name]['posts'].append(post)
+
+def get_metadata(template, default={}):
+    if 'metadata' in template.blocks:
+        block = template.blocks['metadata']
+        context = template.new_context()
+        metadata = yaml.load(block(context).next())
+    else:
+        metadata = default
+
+    return metadata
