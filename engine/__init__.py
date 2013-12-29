@@ -4,7 +4,6 @@ import logging
 import os
 import rendering
 import templating
-import yaml
 
 logger = logging.getLogger('blog-engine')
 
@@ -48,7 +47,7 @@ class Blog(object):
 
     def add_page(self, name, template):
         logger.debug('Adding page %s', name)
-        metadata = get_metadata(template, {'strategy': 'default'})
+        metadata = templating.get_metadata(template, {'strategy': 'default'})
         self.pages[name] = {
             'name': name,
             'metadata': metadata,
@@ -57,7 +56,7 @@ class Blog(object):
 
     def add_post(self, name, template):
         logger.debug('Adding post %s', name)
-        metadata = get_metadata(template, {'tags': []})
+        metadata = templating.get_metadata(template, {'tags': []})
         self.posts[name] = {
             'name': name,
             'metadata': metadata,
@@ -68,7 +67,7 @@ class Blog(object):
 
     def add_tag(self, name, post):
         logger.debug('Adding tag %s', name)
-        if not name in self.tags:
+        if name not in self.tags:
             self.tags[name] = {
                 'name': name,
                 'posts': [],
@@ -77,14 +76,3 @@ class Blog(object):
 
     def list_posts(self):
         return reversed(self.posts.values())
-
-
-def get_metadata(template, default={}):
-    if 'metadata' in template.blocks:
-        block = template.blocks['metadata']
-        context = template.new_context()
-        metadata = yaml.load(block(context).next())
-    else:
-        metadata = default
-
-    return metadata

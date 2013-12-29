@@ -6,6 +6,7 @@ from pygments import highlight
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
+from yaml import load
 
 logger = getLogger('blog-engine')
 
@@ -60,3 +61,14 @@ def get_environment(dirs):
     env.globals['pygments_style'] = pygments_style
 
     return env
+
+
+def get_metadata(template, default={}):
+    if 'metadata' in template.blocks:
+        block = template.blocks['metadata']
+        context = template.new_context()
+        metadata = load(block(context).next())
+    else:
+        metadata = default
+
+    return metadata
