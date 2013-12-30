@@ -1,14 +1,21 @@
 #!/usr/bin/env python
 
+import argparse
 import BaseHTTPServer
 import os
 import SimpleHTTPServer
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
-os.chdir(os.path.join(__dir__, 'web'))
+parser = argparse.ArgumentParser(description='Tool to serve the static blog.')
+parser.add_argument('--dir', default='web', help='change build directory (default: %(default)s)')
+parser.add_argument('--host', default='127.0.0.1', help='change host (default: %(default)s)')
+parser.add_argument('--port', type=int, default=8080, help='change port (default: %(default)s)')
 
-a = ("127.0.0.1", 8080)
-h = SimpleHTTPServer.SimpleHTTPRequestHandler
-s = BaseHTTPServer.HTTPServer(server_address=a, RequestHandlerClass=h)
-s.serve_forever()
+args = parser.parse_args()
+
+os.chdir(os.path.join(__dir__, args.dir))
+
+server = BaseHTTPServer.HTTPServer(server_address=(args.host, args.port),
+                                   RequestHandlerClass=SimpleHTTPServer.SimpleHTTPRequestHandler)
+server.serve_forever()

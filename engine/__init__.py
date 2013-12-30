@@ -10,31 +10,32 @@ logger = logging.getLogger('blog-engine')
 
 
 class Engine(object):
-    def __init__(self, pages_dir, posts_dir, templates_dir, web_dir):
+    def __init__(self, pages_dir, posts_dir, templates_dir, build_dir):
         self.pages_dir = pages_dir
         self.posts_dir = posts_dir
         self.templates_dir = templates_dir
-        self.web_dir = web_dir
+        self.build_dir = build_dir
         self.environment = templating.get_environment([pages_dir, posts_dir, templates_dir])
         self.blog = blogging.Blog()
 
     def read_pages(self):
-        logger.info('Reading pages...')
+        logger.info('Reading pages in %s', self.pages_dir)
         for page in os.listdir(self.pages_dir):
             self.blog.add_page(page[:-3], self.environment.get_template(page))
 
     def read_posts(self):
-        logger.info('Reading posts...')
+        logger.info('Reading posts in %s', self.posts_dir)
         for post in os.listdir(self.posts_dir):
             self.blog.add_post(post[:-3], self.environment.get_template(post))
 
     def render_pages(self):
-        logger.info('Rendering pages...')
+        logger.info('Rendering pages in %s', self.build_dir)
         for page in self.blog.pages.itervalues():
             strategy = page['metadata']['strategy']
             rendering.strategies[strategy](page, self)
 
     def start(self):
+        logger.info('version %s', __version__)
         self.read_pages()
         self.read_posts()
         self.render_pages()
