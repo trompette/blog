@@ -1,5 +1,6 @@
 __version__ = '0.0.1-dev'
 
+import blogging
 import logging
 import os
 import rendering
@@ -15,7 +16,7 @@ class Engine(object):
         self.templates_dir = templates_dir
         self.web_dir = web_dir
         self.environment = templating.get_environment([pages_dir, posts_dir, templates_dir])
-        self.blog = Blog()
+        self.blog = blogging.Blog()
 
     def read_pages(self):
         logger.info('Reading pages...')
@@ -37,42 +38,3 @@ class Engine(object):
         self.read_pages()
         self.read_posts()
         self.render_pages()
-
-
-class Blog(object):
-    def __init__(self):
-        self.pages = {}
-        self.posts = {}
-        self.tags = {}
-
-    def add_page(self, name, template):
-        logger.debug('Adding page %s', name)
-        metadata = templating.get_metadata(template, {'strategy': 'default'})
-        self.pages[name] = {
-            'name': name,
-            'metadata': metadata,
-            'template': template,
-        }
-
-    def add_post(self, name, template):
-        logger.debug('Adding post %s', name)
-        metadata = templating.get_metadata(template, {'tags': []})
-        self.posts[name] = {
-            'name': name,
-            'metadata': metadata,
-            'template': template,
-        }
-        for tag in metadata['tags']:
-            self.add_tag(tag, name)
-
-    def add_tag(self, name, post):
-        logger.debug('Adding tag %s', name)
-        if name not in self.tags:
-            self.tags[name] = {
-                'name': name,
-                'posts': [],
-            }
-        self.tags[name]['posts'].append(post)
-
-    def list_posts(self):
-        return reversed(self.posts.values())
