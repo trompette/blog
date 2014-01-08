@@ -1,8 +1,8 @@
+from logging import getLogger
 from pygments import highlight
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
-from logging import getLogger
 
 logger = getLogger('blog-engine')
 

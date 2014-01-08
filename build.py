@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import argparse
-import engine
 import logging
 import os
+
+import engine
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
@@ -15,9 +16,9 @@ args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG if args.debug else logging.INFO)
 
-ngin = engine.Engine(pages_dir=os.path.join(__dir__, 'pages'),
-                     posts_dir=os.path.join(__dir__, 'posts'),
-                     templates_dir=os.path.join(__dir__, 'templates'),
-                     build_dir=os.path.join(__dir__, args.dir),
-                     files_dir=os.path.join(__dir__, 'files'))
-ngin.start()
+e = engine.Engine(pages_dir=os.path.join(__dir__, 'pages'),
+                  posts_dir=os.path.join(__dir__, 'posts'),
+                  templates_dir=os.path.join(__dir__, 'templates'),
+                  build_dir=os.path.join(__dir__, args.dir),
+                  files_dir=os.path.join(__dir__, 'files'))
+e.start()

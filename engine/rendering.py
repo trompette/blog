@@ -1,12 +1,12 @@
-import logging
-import os
+from logging import getLogger
+from os.path import join
 
-logger = logging.getLogger('blog-engine')
+logger = getLogger('blog-engine')
 
 
 def dump_file(engine, filename, template, vars={}):
     logger.debug('Dumping %s', filename)
-    with open(os.path.join(engine.build_dir, filename), 'w') as f:
+    with open(join(engine.build_dir, filename), 'w') as f:
         f.write(template.render(vars))
 
 

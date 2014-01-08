@@ -1,4 +1,5 @@
 from logging import getLogger
+
 from templating import get_metadata
 
 logger = getLogger('blog-engine')
