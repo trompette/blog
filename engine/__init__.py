@@ -1,14 +1,12 @@
 __version__ = '0.0.1-dev'
 
-from logging import getLogger
 from os import listdir
 from shutil import copytree, rmtree
 
-from blogging import Blog
-from rendering import strategies
-from templating import get_environment
-
-logger = getLogger('blog-engine')
+from .blogging import Blog
+from .logging import logger
+from .rendering import strategies
+from .templating import get_environment
 
 
 class Engine(object):

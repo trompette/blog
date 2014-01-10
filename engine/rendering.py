@@ -1,7 +1,6 @@
-from logging import getLogger
 from os.path import join
 
-logger = getLogger('blog-engine')
+from .logging import logger
 
 
 def dump_file(engine, filename, template, vars={}):

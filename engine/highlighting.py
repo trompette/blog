@@ -1,10 +1,9 @@
-from logging import getLogger
 from pygments import highlight
 from pygments.formatters import get_formatter_by_name
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from pygments.util import ClassNotFound
 
-logger = getLogger('blog-engine')
+from .logging import logger
 
 
 def highlight_code(code, lang):

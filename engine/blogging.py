@@ -1,8 +1,5 @@
-from logging import getLogger
-
-from templating import get_metadata
-
-logger = getLogger('blog-engine')
+from .templating import get_metadata
+from .logging import logger
 
 
 class Blog(object):

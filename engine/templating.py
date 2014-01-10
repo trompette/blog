@@ -1,14 +1,12 @@
 from jinja2 import Environment, FileSystemLoader
 from jinja2.ext import Extension, Markup
 from jinja2.nodes import CallBlock, Const
-from logging import getLogger
 from pygments.formatters import get_formatter_by_name
 from pygments.util import ClassNotFound
 from yaml import load
 
-from highlighting import highlight_code
-
-logger = getLogger('blog-engine')
+from .highlighting import highlight_code
+from .logging import logger
 
 
 class HighlightExtension(Extension):
