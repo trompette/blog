@@ -23,7 +23,7 @@ def blog_strategy(page, engine):
 
 
 def post_strategy(page, engine):
-    for post in engine.blog.posts.itervalues():
+    for post in engine.blog.posts.values():
         dump_file(engine=engine,
                   filename=post['name'],
                   template=post['template'])

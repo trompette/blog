@@ -37,7 +37,7 @@ class Engine(object):
 
     def render_pages(self):
         logger.info('Rendering pages in %s', self.build_dir)
-        for page in self.blog.pages.itervalues():
+        for page in self.blog.pages.values():
             strategy = page['metadata']['strategy']
             strategies[strategy](page, self)
 

@@ -38,4 +38,4 @@ class Blog(object):
         self.tags[name]['posts'].append(post)
 
     def list_posts(self):
-        return reversed(self.posts.values())
+        return self.posts.values()

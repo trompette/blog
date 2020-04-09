@@ -1,6 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
 from jinja2.ext import Extension, Markup
 from jinja2.nodes import CallBlock, Const
+from jinja2.utils import concat
 from pygments.formatters import get_formatter_by_name
 from pygments.util import ClassNotFound
 from yaml import load
@@ -13,7 +14,7 @@ class HighlightExtension(Extension):
     tags = {'highlight'}
 
     def parse(self, parser):
-        lineno = parser.stream.next().lineno
+        lineno = next(parser.stream).lineno
         lang = Const(None)
         if not parser.stream.current.test('block_end'):
             lang = parser.parse_expression()
@@ -49,9 +50,10 @@ def get_environment(dirs):
 
 def get_metadata(template, default={}):
     if 'metadata' in template.blocks:
-        block = template.blocks['metadata']
+        block_func = template.blocks['metadata']
         context = template.new_context()
-        metadata = load(block(context).next())
+        generator = block_func(context)
+        metadata = load(concat(generator))
     else:
         metadata = default
 

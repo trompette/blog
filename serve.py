@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 
 import argparse
-import BaseHTTPServer
+import http.server
 import os
-import SimpleHTTPServer
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,6 +15,6 @@ args = parser.parse_args()
 
 os.chdir(os.path.join(__dir__, args.dir))
 
-server = BaseHTTPServer.HTTPServer(server_address=(args.host, args.port),
-                                   RequestHandlerClass=SimpleHTTPServer.SimpleHTTPRequestHandler)
+server = http.server.HTTPServer(server_address=(args.host, args.port),
+                                RequestHandlerClass=http.server.SimpleHTTPRequestHandler)
 server.serve_forever()
