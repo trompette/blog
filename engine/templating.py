@@ -4,7 +4,7 @@ from jinja2.nodes import CallBlock, Const
 from jinja2.utils import concat
 from pygments.formatters import get_formatter_by_name
 from pygments.util import ClassNotFound
-from yaml import load
+from yaml import safe_load
 
 from .highlighting import highlight_code
 from .logging import logger
@@ -53,7 +53,7 @@ def get_metadata(template, default={}):
         block_func = template.blocks['metadata']
         context = template.new_context()
         generator = block_func(context)
-        metadata = load(concat(generator))
+        metadata = safe_load(concat(generator))
     else:
         metadata = default
 
