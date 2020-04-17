@@ -3,30 +3,29 @@ from os.path import join
 from .logging import logger
 
 
-def dump_file(engine, filename, template, vars={}):
+def dump_file(pathname, filename, content):
     logger.debug('Dumping %s', filename)
-    with open(join(engine.build_dir, filename), 'w') as f:
-        f.write(template.render(vars))
+    with open(join(pathname, filename), 'w') as f:
+        f.write(content)
 
 
 def default_strategy(page, engine):
-    dump_file(engine=engine,
+    dump_file(pathname=engine.build_dir,
               filename=page['name'],
-              template=page['template'])
+              content=page['template'].render())
 
 
 def blog_strategy(page, engine):
-    dump_file(engine=engine,
+    dump_file(pathname=engine.build_dir,
               filename=page['name'],
-              template=page['template'],
-              vars={'blog': engine.blog})
+              content=page['template'].render(blog=engine.blog))
 
 
 def post_strategy(page, engine):
     for post in engine.blog.posts.values():
-        dump_file(engine=engine,
+        dump_file(pathname=engine.build_dir,
                   filename=post['name'],
-                  template=post['template'])
+                  content=post['template'].render())
 
 
 strategies = {

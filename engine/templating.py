@@ -51,9 +51,8 @@ def get_environment(dirs):
 def get_metadata(template, default={}):
     if 'metadata' in template.blocks:
         block_func = template.blocks['metadata']
-        context = template.new_context()
-        generator = block_func(context)
-        metadata = safe_load(concat(generator))
+        block_content = concat(block_func(template.new_context()))
+        metadata = safe_load(block_content)
     else:
         metadata = default
 
