@@ -17,4 +17,7 @@ os.chdir(os.path.join(__dir__, args.dir))
 
 server = http.server.HTTPServer(server_address=(args.host, args.port),
                                 RequestHandlerClass=http.server.SimpleHTTPRequestHandler)
+
+print('Blog is served on http://%s:%d'%server.server_address)
+
 server.serve_forever()
