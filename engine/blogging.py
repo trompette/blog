@@ -7,11 +7,10 @@ class Blog(object):
         self.posts = {}
         self.tags = {}
 
-    def add_page(self, pagename, template, metadata):
+    def add_page(self, pagename, template):
         logger.debug('Adding page %s', pagename)
         self.pages[pagename] = {
             'name': pagename,
-            'metadata': metadata,
             'template': template,
         }
 
