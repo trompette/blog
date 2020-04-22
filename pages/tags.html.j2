@@ -1,0 +1,22 @@
+{% extends 'layout.html.j2' %}
+{% import 'macros.html.j2' as macros %}
+
+{% block title %}
+{{ super() }} — My Tags
+{% endblock %}
+
+{% block article %}
+{% set tags = blog.tags.values() | sort(attribute="name") %}
+<h1>My Tags</h1>
+<p>Some anchors: {{ macros.tag_links(tags | map(attribute="name")) }}</p>
+{% for tag in tags %}
+    <h3 id="tag-{{ tag.name }}">{{ tag.name }}</h3>
+    <ul>
+        {% for post in tag.posts | sort(reverse=true) %}
+            <li>
+                {{ macros.post_link(post) }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+{% endblock %}

@@ -1,14 +1,27 @@
 {% extends 'layout.html.j2' %}
 
-{% block content %}
-<section>
-    <ol>
-        {% for post in blog.list_posts() %}
-        <li>
-            <a href="{{ post.name }}">{{ post.name }}</a>
-            <small>{{ post.metadata.tags|join(', ') }}</small>
-        </li>
-        {% endfor %}
-    </ol>
-</section>
+{% block title %}
+{{ super() }} — About Me
+{% endblock %}
+
+{% block article %}
+<h1>About Me</h1>
+<p>Greetings!</p>
+<p>My name is Benoît and I live in France with my wife, son, and daugther.</p>
+<p>Since my graduation in 2006, I have been working as a software developer for different companies.</p>
+<p>
+    While being isolated at home because of COVID-19 pandemic, I finally launched my <a href="blog.html">blog</a>, yay!
+</p>
+<p>
+    Long ago, I created a <a href="http://twitter.com/trompouet">Twitter account</a> to share with my followers some
+    thoughts and articles.
+</p>
+<p>
+    My public projects are hosted on my <a href="http://github.com/trompette">GitHub account</a>. Most of them are free
+    and open-source softwares.
+</p>
+<p>
+    Conference organizers have trusted me to speak about my professional experience. Slides are available on my
+    <a href="https://speakerdeck.com/trompette">Speaker Deck account</a>.
+</p>
 {% endblock %}

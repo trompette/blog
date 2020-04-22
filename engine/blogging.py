@@ -32,6 +32,3 @@ class Blog(object):
                 'posts': [],
             }
         self.tags[tagname]['posts'].append(postname)
-
-    def list_posts(self):
-        return self.posts.values()
