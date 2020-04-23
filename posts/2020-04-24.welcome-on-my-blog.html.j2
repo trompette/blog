@@ -1,0 +1,34 @@
+{% extends 'layout.html.j2' %}
+{% import 'macros.html.j2' as macros %}
+
+{% block metadata %}
+tags: [welcome]
+{% endblock %}
+
+{% block title %}
+{{ super() }} — Welcome On My Blog
+{% endblock %}
+
+{% block article %}
+<h1>Welcome On My Blog</h1>
+<p><small>Written on 24 April 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}</small></p>
+<p>I know I am quite late to the party, but I finally launched my blog!</p>
+<p>
+    Since French people are being isolated at home because of COVID-19 pandemic, I figured it was just the right time
+    for me to rework an old <a href="https://github.com/trompette/blog">blog project</a>, long abandonned on GitHub.
+</p>
+<p>
+    The project originated in late 2011, and was created to implement yet another static blog generator. I used Python
+    as programming language because I wanted to leverage two famous packages from the Python ecosystem:
+    <a href="https://pypi.org/project/Jinja2/">Jinja2</a> and <a href="https://pypi.org/project/Pygments/">Pygments</a>.
+</p>
+<p>Why implement a new static blog generator, you may ask? Good question!</p>
+<p>
+    Before starting the project I looked at <a href="https://jekyllrb.com/">Jekyll</a> and
+    <a href="https://blog.getpelican.com/">Pelican</a>. Both generators felt too complex compared to what I needed.
+    I wanted to write posts in HTML and to avoid learning a new CLI tool. Ultimately, I came up with some glue code
+    around Jinja2 and Pygments.
+</p>
+<p>Then, I wrote short posts to share random tips but I never felt the urge to publish the generated blog.</p>
+<p>Until now.</p>
+{% endblock %}
