@@ -11,7 +11,12 @@ tags: [welcome]
 
 {% block article %}
 <h1>Welcome On My Blog</h1>
-<p><small>Written on 24 April 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}</small></p>
+<p>
+    <small>
+        Written on 24 April 2020 ({{ macros.post_source_code_link(post.name, 'source code') }}) — Tagged with
+        {{ macros.tag_links(post.metadata.tags) }}
+    </small>
+</p>
 <p>I know I am quite late to the party, but I finally launched my blog!</p>
 <p>
     Since French people are being isolated at home because of COVID-19 pandemic, I figured it was just the right time

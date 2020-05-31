@@ -2,6 +2,10 @@
     <a href="{{ post }}">{{ post }}</a>
 {%- endmacro %}
 
+{% macro post_source_code_link(post, title) -%}
+    <a href="https://github.com/trompette/blog/blob/master/posts/{{ post }}.j2">{{ title }}</a>
+{%- endmacro %}
+
 {% macro tag_link(tag) -%}
     <a href="tags.html#tag-{{ tag }}">{{ tag }}</a>
 {%- endmacro %}
