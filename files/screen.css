@@ -13,7 +13,7 @@ a, a:hover {
     text-decoration: underline;
 }
 
-tt {
+pre, tt {
     font-family: "Dejavu Sans Mono", monospace;
 }
 
