@@ -18,7 +18,7 @@ pre, tt {
 }
 
 article {
-    padding: 0 9%;
+    padding: 0 9% 9%;
 }
 
 nav {
@@ -53,6 +53,7 @@ nav a {
 @media (min-width: 1025px) {
     article {
         margin-right: 33%;
+        padding-bottom: 0;
     }
 
     nav {
