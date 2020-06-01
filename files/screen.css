@@ -46,7 +46,7 @@ nav footer {
     text-align: center;
 }
 
-nav a {
+nav a, nav a:hover {
     color: rgb(174, 225, 224);
 }
 
