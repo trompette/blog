@@ -7,31 +7,30 @@
     <link rel="stylesheet" type="text/css" href="highlight.css" media="all"/>
 </head>
 <body>
-<article id="content">
-    {% block article %}{% endblock %}
-</article>
-<nav id="side">
-    <section>
-        <h2>Benoît Merlet</h2>
-        <p>Senior developer. FOSS enthusiast.</p>
-        <h2>Links</h2>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="http://twitter.com/trompouet">Twitter</a></li>
-            <li><a href="http://github.com/trompette">GitHub</a></li>
-            <li><a href="https://speakerdeck.com/trompette">Speaker Deck</a></li>
-        </ul>
-    </section>
-    <footer>
-        <p>
-            <small>
-                © 2020 Benoît Merlet.
-                <br/>
-                Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</a>.
-            </small>
-        </p>
-    </footer>
-</nav>
+    <article>
+        {% block article %}{% endblock %}
+    </article>
+    <nav>
+        <section>
+            <h2>Benoît Merlet</h2>
+            <p>Senior developer. FOSS enthusiast.</p>
+            <h2>Links</h2>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="http://twitter.com/trompouet">Twitter</a></li>
+                <li><a href="http://github.com/trompette">GitHub</a></li>
+                <li><a href="https://speakerdeck.com/trompette">Speaker Deck</a></li>
+            </ul>
+        </section>
+        <footer>
+            <p>
+                <small>
+                    © 2020 Benoît Merlet. <br/>
+                    Licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</a>.
+                </small>
+            </p>
+        </footer>
+    </nav>
 </body>
 </html>

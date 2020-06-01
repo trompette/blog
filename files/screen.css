@@ -17,33 +17,57 @@ pre, tt {
     font-family: "Dejavu Sans Mono", monospace;
 }
 
-#content {
-    margin-right: 33%;
+article {
     padding: 0 9%;
 }
 
-#side {
+nav {
     background: rgb(24, 71, 93);
     color: rgb(174, 225, 224);
     display: flex;
     flex-direction: column;
-    height: 100vh;
     overflow: auto;
     padding: 0 4%;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 25%;
 }
 
-#side section {
+nav section {
     flex: 1;
 }
 
-#side footer {
+nav ul {
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+}
+
+nav footer {
     text-align: center;
 }
 
-#side a {
+nav a {
     color: rgb(174, 225, 224);
+}
+
+@media (min-width: 1025px) {
+    article {
+        margin-right: 33%;
+    }
+
+    nav {
+        height: 100vh;
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 25%;
+    }
+
+    nav ul {
+        padding-left: 2em;
+    }
+
+    nav li {
+        display: list-item;
+    }
 }
