@@ -1,0 +1,211 @@
+{% extends 'layout.html.j2' %}
+{% import 'macros.html.j2' as macros %}
+
+{% block metadata %}
+tags: [freelancing]
+{% endblock %}
+
+{% block title %}
+{{ super() }} — Generating Invoices
+{% endblock %}
+
+{% block article %}
+<h1>Generating Invoices</h1>
+<p>
+    <small>
+        Written on 3 June 2020 ({{ macros.post_source_code_link(post.name, 'source code') }}) — Tagged with
+        {{ macros.tag_links(post.metadata.tags) }}
+    </small>
+</p>
+<p>
+    I started working as a freelance programmer, and at some point I needed to issue an invoice for my first customer to
+    pay for my services. I wanted to send an electronic invoice, in other words: first generate a PDF file, then send
+    the file by email.
+</p>
+<p>Let me explain how I automated the PDF file generation.</p>
+<p>
+    It may come as a surprise, but I decided not to use <a href="https://www.latex-project.org/">LaTeX</a> because I
+    anticipated it would be a lot of work to apply custom styles for the invoice to look like
+    <a href="https://programmation.merlet.biz/" hreflang="fr">my freelancing website [fr]</a>. I will reconsider if some
+    day my website uses <a href="https://latex.now.sh/">LaTeX.css</a>.
+</p>
+<p>Instead, I went with HTML, CSS and JavaScript.</p>
+<h3>Starting with HTML and CSS</h3>
+<p>
+    The idea was to render each invoice as a web page looking like my website, then print the web page to PDF, a feature
+    available in most web browsers nowadays.
+</p>
+<p>
+    I created a file named <tt>template.html</tt> and I designed the invoice to be printed on a single A4 sheet. Even on
+    one sheet, I managed to include the
+    <a href="https://www.service-public.fr/professionnels-entreprises/vosdroits/F31808" hreflang="fr">mandatory
+    information [fr]</a> supposed to appear on a French invoice.
+</p>
+<p>
+    Thanks to <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout">Flexbox</a>, including
+    a header and a footer was easy:
+</p>
+{% highlight 'html' %}
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                display: flex;
+                flex-direction: column;
+                font-size: 10pt;
+                height: 297mm;
+                margin: 0 auto;
+                width: 210mm;
+            }
+            header {
+                font-size: larger;
+            }
+            main {
+                flex: 1;
+            }
+            footer {
+                font-size: smaller;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <!-- invoice number -->
+        </header>
+        <main>
+            <!-- customer address, invoice lines and total price -->
+        </main>
+        <footer>
+            <!-- company address and number -->
+        </footer>
+    </body>
+{% endhighlight %}
+<p>
+    At this point, I could copy the <tt>template.html</tt> file and tailor the new invoice to my customer by updating
+    the details by hand.
+</p>
+<h3>Adding JavaScript to the mix</h3>
+<p>
+    I improved the previous version by using JavaScript as a templating engine. The idea was to streamline the
+    invoice editing process after copying the <tt>template.html</tt> file.
+</p>
+<p>
+    I included <a href="https://vuejs.org/">Vue.js</a> using a <tt>&lt;script&gt;</tt> tag and wrote a small Vue
+    application:
+</p>
+{% highlight 'html' %}
+    <main id="app">
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Subtotal</th>
+            </tr>
+            <tr v-for="line in lines">
+                <td>{% raw %}{{ line.description }}{% endraw %}</td>
+                <td>{% raw %}{{ line.quantity | format_quantity }}{% endraw %}</td>
+                <td>{% raw %}{{ line.unit_price | format_price }}{% endraw %}</td>
+                <td>{% raw %}{{ line.quantity * line.unit_price | format_price }}{% endraw %}</td>
+            </tr>
+        </table>
+        <ul>
+            <li v-if="with_discount">
+                {% raw -%}
+                Subtotal:
+                {{ subtotal | format_price }}
+                {%- endraw %}
+            </li>
+            <li v-if="with_discount">
+                {% raw -%}
+                {{ discount_rate | format_rate }} discount:
+                {{ discount | format_price }}
+                {%- endraw %}
+            </li>
+            <li>
+                {% raw -%}
+                Total:
+                {{ total | format_price }}
+                {%- endraw %}
+            </li>
+        </ul>
+    </main>
+{% endhighlight %}
+{% highlight 'javascript' %}
+    var app = new Vue({
+        el: '#app',
+        data: {
+            lines: [{
+                description: "Day of feature development",
+                quantity: 10,
+                unit_price: 1000,
+            },{
+                description: "Day of server administration",
+                quantity: 3,
+                unit_price: 1000,
+            }],
+            discount_rate: 0.1,
+        },
+        computed: {
+            discount: function () {
+                return this.discount_rate * this.subtotal;
+            },
+            subtotal: function () {
+                var cb = (acc, line) => acc + line.quantity * line.unit_price;
+                return this.lines.reduce(cb, 0);
+            },
+            total: function () {
+                return this.subtotal - this.discount;
+            },
+            with_discount: function () {
+                return this.discount_rate > 0;
+            },
+        },
+        filters: {
+            format_price: function (p) {
+                var options = { style: 'currency', currency: 'EUR' };
+                return new Intl.NumberFormat('fr', options).format(p);
+            },
+            format_quantity: function (q) {
+                var options = { style: 'decimal', minimumFractionDigits: 1 };
+                return new Intl.NumberFormat('fr', options).format(q);
+            },
+            format_rate: function (r) {
+                var options = { style: 'percent' };
+                return new Intl.NumberFormat('fr', options).format(r);
+            },
+        }
+    });
+{% endhighlight %}
+<p>
+    With this new version, I could declare the invoice lines and an optional discount rate, then let the invoice render
+    itself. As one can see, I made sure computing total price and formatting numbers is done automatically to avoid
+    errors and to be consistent.
+</p>
+<h3>Consecutive invoice numbers</h3>
+<p>
+    As a last step, I needed to make all invoice numbers consecutive ones to comply with French regulation. So I
+    automated copying the <tt>template.html</tt> file with a <tt>Makefile</tt> rule:
+</p>
+{% highlight 'makefile' %}
+    YEAR := $(shell date +%Y)
+    COUNT := $(shell find . -name "$(YEAR)-*.html" |wc -l)
+    NEXT := $(shell printf "$(YEAR)-%02d.html" "$(shell expr $(COUNT) + 1)")
+
+    .PHONY: new
+    new:  ## Create new invoice from template
+        @echo Counted $(COUNT) invoices created in $(YEAR)
+        @cp template.html $(NEXT)
+        @echo Created $(NEXT)
+{% endhighlight %}
+<p>
+    Ultimately, to issue an invoice for a customer, I follow these steps:
+</p>
+<ol>
+    <li>run <tt>make new</tt> in a terminal,</li>
+    <li>declare invoice lines in JavaScript,</li>
+    <li>load and print the web page to PDF.</li>
+</ol>
+{% endblock %}
