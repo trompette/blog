@@ -13,8 +13,7 @@ tags: [freelancing]
 <h1>Generating Invoices</h1>
 <p>
     <small>
-        Written on 3 June 2020 ({{ macros.post_source_code_link(post.name, 'source code') }}) — Tagged with
-        {{ macros.tag_links(post.metadata.tags) }}
+        Written on 3 June 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}
     </small>
 </p>
 <p>
@@ -207,4 +206,11 @@ tags: [freelancing]
     <li>load and print the web page to PDF.</li>
 </ol>
 <p>This is not rocket science, but it may help others.</p>
+<footer>
+    <p>
+        <small>
+            Post {{ macros.post_source_code_link(post.name, 'source code') }} is available, feel free to contribute.
+        </small>
+    </p>
+</footer>
 {% endblock %}

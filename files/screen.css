@@ -21,6 +21,11 @@ article {
     padding: 0 9% 9%;
 }
 
+article footer {
+    border-top: 1px solid rgb(24, 71, 93);
+    margin-top: 3em;
+}
+
 nav {
     background: rgb(24, 71, 93);
     color: rgb(174, 225, 224);
