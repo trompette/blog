@@ -30,9 +30,9 @@ class HighlightExtension(Extension):
         return highlight_code(code, lang)
 
 
-def pygments_style(style):
+def pygments_style(style, classname):
     try:
-        string = get_formatter_by_name('html', style=style).get_style_defs('.highlight')
+        string = get_formatter_by_name('html', style=style).get_style_defs(classname)
     except ClassNotFound:
         logger.warning('Unknown Pygments style %s', style)
         string = '/* nothing */'
