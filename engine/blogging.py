@@ -1,3 +1,6 @@
+from datetime import datetime
+from feedgenerator import Rss201rev2Feed
+
 from .logging import logger
 
 
@@ -32,3 +35,23 @@ class Blog(object):
                 'posts': [],
             }
         self.tags[tagname]['posts'].append(postname)
+
+    def generate_feed(self):
+        feed = Rss201rev2Feed(
+            title="Benoît Merlet's personal website",
+            author_name="Benoît Merlet",
+            link="https://www.chezmerlet.net/",
+            description="Posts from a senior developer and FOSS enthusiast",
+            language="en",
+            feed_url="https://www.chezmerlet.net/feed.rss",
+        )
+        for post in self.posts.values():
+            feed.add_item(
+                unique_id=post['name'],
+                title=post['name'],
+                link="https://www.chezmerlet.net/%s"%post['name'],
+                description=post['template'].render(post=post),
+                pubdate=datetime.fromisoformat(post['name'][0:10])
+            )
+
+        return feed

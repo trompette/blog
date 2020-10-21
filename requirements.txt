@@ -1,3 +1,4 @@
+feedgenerator
 Jinja2
 Pygments
 PyYAML

@@ -40,10 +40,15 @@ def pygments_style(style, classname):
     return string
 
 
+def syndication_feed(feed):
+    return feed.writeString('utf-8')
+
+
 def get_environment(dirs):
     env = Environment(loader=FileSystemLoader(dirs),
                       extensions=[HighlightExtension])
     env.globals['pygments_style'] = pygments_style
+    env.globals['syndication_feed'] = syndication_feed
 
     return env
 
