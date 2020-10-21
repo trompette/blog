@@ -51,7 +51,7 @@ class Blog(object):
                 title=post['name'],
                 link="https://www.chezmerlet.net/%s"%post['name'],
                 description=post['template'].render(post=post),
-                pubdate=datetime.fromisoformat(post['name'][0:10])
+                pubdate=datetime.strptime(post['name'][0:10], '%Y-%m-%d'),
             )
 
         return feed
