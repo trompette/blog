@@ -1,4 +1,3 @@
-from datetime import datetime
 from feedgenerator import Rss201rev2Feed
 
 from .logging import logger
