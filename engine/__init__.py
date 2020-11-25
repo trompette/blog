@@ -1,5 +1,6 @@
 __version__ = '0.1.0-dev'
 
+from datetime import datetime
 from os import listdir
 from shutil import copytree, rmtree
 
@@ -34,7 +35,12 @@ class Engine(object):
         for filename in listdir(self.posts_dir):
             postname = filename[:-3]
             template = self.environment.get_template(filename)
-            metadata = get_metadata(template, {'tags': []})
+            metadata = {
+                'title': filename[11:-8],
+                'pubdate': datetime.strptime(filename[0:10], '%Y-%m-%d'),
+                'tags': [],
+                **get_metadata(template),
+            }
             self.blog.add_post(postname, template, metadata)
 
     def rebuild_blog(self):

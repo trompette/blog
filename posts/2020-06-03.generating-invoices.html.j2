@@ -14,7 +14,9 @@ tags: [freelancing]
 <h1>{{ post.metadata.title }}</h1>
 <p>
     <small>
-        Written on 3 June 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}
+        Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }}
+        —
+        Tagged with {{ macros.tag_links(post.metadata.tags) }}
     </small>
 </p>
 <p>

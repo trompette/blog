@@ -14,7 +14,9 @@ tags: [welcome]
 <h1>{{ post.metadata.title }}</h1>
 <p>
     <small>
-        Written on 24 April 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}
+        Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }}
+        —
+        Tagged with {{ macros.tag_links(post.metadata.tags) }}
     </small>
 </p>
 <p>I know I am quite late to the party, but I finally launched my blog!</p>
