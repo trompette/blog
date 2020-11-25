@@ -11,14 +11,7 @@ tags: [welcome]
 {% endblock %}
 
 {% block article %}
-<h1>{{ post.metadata.title }}</h1>
-<p>
-    <small>
-        Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }}
-        —
-        Tagged with {{ macros.tag_links(post.metadata.tags) }}
-    </small>
-</p>
+<header>{{ macros.post_header(post) }}</header>
 <p>I know I am quite late to the party, but I finally launched my blog!</p>
 <p>
     Since French people are being isolated at home because of COVID-19 pandemic, I figured it was just the right time
@@ -38,11 +31,5 @@ tags: [welcome]
 </p>
 <p>Then, I wrote short posts to share random tips but I never felt the urge to publish the generated blog.</p>
 <p>Until now.</p>
-<footer>
-    <p>
-        <small>
-            Post {{ macros.post_source_code_link(post.name, 'source code') }} is available, feel free to contribute.
-        </small>
-    </p>
-</footer>
+<footer>{{ macros.post_footer(post) }}</footer>
 {% endblock %}

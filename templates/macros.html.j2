@@ -1,9 +1,32 @@
-{% macro post_link(post) -%}
-    <a href="{{ post }}">{{ post }}</a>
+{% macro post_date(post) -%}
+    📅 {{ post.metadata.pubdate.strftime('%Y-%m-%d') }}
 {%- endmacro %}
 
-{% macro post_source_code_link(post, title) -%}
-    <a href="https://github.com/trompette/blog/blob/master/posts/{{ post }}.j2">{{ title }}</a>
+{% macro post_link(post) -%}
+    <a href="{{ post.name }}">{{ post.metadata.title }}</a>
+{%- endmacro %}
+
+{% macro post_tags(post) -%}
+    🏷 {{ tag_links(post.metadata.tags) }}
+{%- endmacro %}
+
+{% macro post_header(post) -%}
+    <h1>{{ post.metadata.title }}</h1>
+    <p>
+        <small>
+            Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }},
+            Tagged with {{ tag_links(post.metadata.tags) }}
+        </small>
+    </p>
+{%- endmacro %}
+
+{% macro post_footer(post) -%}
+    <p>
+        <small>
+            Post <a href="https://github.com/trompette/blog/blob/master/posts/{{ post.name }}.j2">source code</a> is
+            available, feel free to contribute.
+        </small>
+    </p>
 {%- endmacro %}
 
 {% macro tag_link(tag) -%}

@@ -11,10 +11,9 @@
 <p>The blog is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA-4.0</a>.</p>
 <h2>Posts Archive</h2>
 <ul>
-    {% for post in blog.posts.values() | sort(attribute="name",reverse=true) %}
+    {% for post in blog.posts.values() | sort(attribute="name", reverse=true) %}
         <li>
-            {{ macros.post_link(post.name) }}
-            <small>— Tagged with {{ macros.tag_links(post.metadata.tags) }}</small>
+            {{ macros.post_date(post) }} — {{ macros.post_link(post) }} — {{ macros.post_tags(post) }}
         </li>
     {% endfor %}
 </ul>

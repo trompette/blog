@@ -11,14 +11,7 @@ tags: [freelancing]
 {% endblock %}
 
 {% block article %}
-<h1>{{ post.metadata.title }}</h1>
-<p>
-    <small>
-        Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }}
-        —
-        Tagged with {{ macros.tag_links(post.metadata.tags) }}
-    </small>
-</p>
+<header>{{ macros.post_header(post) }}</header>
 <p>
     I started working as a freelance programmer, and at some point I needed to issue an invoice for my first customer to
     pay for my services. I wanted to send an electronic invoice, in other words: first generate a PDF file, then send
@@ -209,11 +202,5 @@ tags: [freelancing]
     <li>load and print the web page to PDF.</li>
 </ol>
 <p>This is not rocket science, but it may help others.</p>
-<footer>
-    <p>
-        <small>
-            Post {{ macros.post_source_code_link(post.name, 'source code') }} is available, feel free to contribute.
-        </small>
-    </p>
-</footer>
+<footer>{{ macros.post_footer(post) }}</footer>
 {% endblock %}

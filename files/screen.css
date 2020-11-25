@@ -26,6 +26,11 @@ article footer {
     margin-top: 3em;
 }
 
+article header p,
+article footer p {
+    font-style: italic;
+}
+
 nav {
     background: rgb(24, 71, 93);
     color: rgb(174, 225, 224);

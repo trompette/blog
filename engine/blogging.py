@@ -48,10 +48,10 @@ class Blog(object):
         for post in self.posts.values():
             feed.add_item(
                 unique_id=post['name'],
-                title=post['name'],
+                title=post['metadata']['title'],
                 link="https://www.chezmerlet.net/%s"%post['name'],
                 description=post['template'].render(post=post),
-                pubdate=datetime.strptime(post['name'][0:10], '%Y-%m-%d'),
+                pubdate=post['metadata']['pubdate'],
             )
 
         return feed
