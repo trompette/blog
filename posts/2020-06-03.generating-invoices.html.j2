@@ -2,15 +2,16 @@
 {% import 'macros.html.j2' as macros %}
 
 {% block metadata %}
+title: Generating Invoices
 tags: [freelancing]
 {% endblock %}
 
 {% block title %}
-{{ super() }} — Generating Invoices
+{{ super() }} — {{ post.metadata.title }}
 {% endblock %}
 
 {% block article %}
-<h1>Generating Invoices</h1>
+<h1>{{ post.metadata.title }}</h1>
 <p>
     <small>
         Written on 3 June 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}

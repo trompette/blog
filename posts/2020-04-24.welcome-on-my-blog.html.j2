@@ -2,15 +2,16 @@
 {% import 'macros.html.j2' as macros %}
 
 {% block metadata %}
+title: Welcome On My Blog
 tags: [welcome]
 {% endblock %}
 
 {% block title %}
-{{ super() }} — Welcome On My Blog
+{{ super() }} — {{ post.metadata.title }}
 {% endblock %}
 
 {% block article %}
-<h1>Welcome On My Blog</h1>
+<h1>{{ post.metadata.title }}</h1>
 <p>
     <small>
         Written on 24 April 2020 — Tagged with {{ macros.tag_links(post.metadata.tags) }}
