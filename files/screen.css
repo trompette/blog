@@ -28,6 +28,7 @@ article footer {
 
 article header p,
 article footer p {
+    font-size: smaller;
     font-style: italic;
 }
 
@@ -52,8 +53,10 @@ nav li {
     display: inline;
 }
 
-nav footer {
+nav footer p {
     text-align: center;
+    font-size: smaller;
+    font-style: italic;
 }
 
 nav a, nav a:hover {

@@ -13,19 +13,14 @@
 {% macro post_header(post) -%}
     <h1>{{ post.metadata.title }}</h1>
     <p>
-        <small>
-            Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }},
-            Tagged with {{ tag_links(post.metadata.tags) }}
-        </small>
+        Written on {{ post.metadata.pubdate.strftime('%-d %B %Y') }}. Tagged with {{ tag_links(post.metadata.tags) }}.
     </p>
 {%- endmacro %}
 
 {% macro post_footer(post) -%}
     <p>
-        <small>
-            Post <a href="https://github.com/trompette/blog/blob/master/posts/{{ post.name }}.j2">source code</a> is
-            available, feel free to contribute.
-        </small>
+        Post <a href="https://github.com/trompette/blog/blob/master/posts/{{ post.name }}.j2">source code</a> is
+        available, feel free to contribute.
     </p>
 {%- endmacro %}
 
