@@ -29,14 +29,10 @@
     </p>
 {%- endmacro %}
 
-{% macro tag_link(tag) -%}
-    <a href="tags.html#tag-{{ tag }}">{{ tag }}</a>
-{%- endmacro %}
-
 {% macro tag_links(tags) -%}
     {% set comma = joiner(",") %}
     {% for tag in tags -%}
         {{ comma() }}
-        {{ tag_link(tag) }}
+        <a href="tags.html#tag-{{ tag }}">{{ tag }}</a>
     {%- endfor %}
 {%- endmacro %}
