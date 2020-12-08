@@ -1,0 +1,140 @@
+{% extends 'layout.html.j2' %}
+{% import 'macros.html.j2' as macros %}
+
+{% block metadata %}
+title: Automation With Ansible
+tags: [automation, self-hosting]
+{% endblock %}
+
+{% block title %}
+{{ super() }} — {{ post.metadata.title }}
+{% endblock %}
+
+{% block article %}
+<header>{{ macros.post_header(post) }}</header>
+<p>
+    For many years, I have been renting a cheap dedicated server to self-host a bunch of services, including this
+    website.
+</p>
+<p>
+    Since day one, I have been managing the server remotely using SSH, from upgrading to new
+    <a href="https://www.debian.org/releases/">Debian releases</a> to installing packages and tweaking configuration
+    files.
+</p>
+<h2>The inevitable happened</h2>
+<p>
+    Although I thought about it a few times, I never invested time into learning and configuring automation tools
+    to manage the server because it seemed overkill for a hobby.
+</p>
+<p>
+    Eventually, I ran into an issue while rebooting after a kernel upgrade: the server failed to come back up because of
+    the aging power supply unit, according to technical support.
+</p>
+<p>
+    Long story short, the only thing left for me to do was to install a new server from scratch. However, I learned my
+    lesson and I finally started a project to automate the installation.
+</p>
+<h2>Project overview</h2>
+<p>To get the job done, I am combining different tools:</p>
+<ul>
+    <li><a href="https://www.ansible.com/">Ansible</a> to describe the server configuration in roles,</li>
+    <li><a href="https://molecule.readthedocs.io/">Molecule</a> to test the main role in a container,</li>
+    <li><a href="https://testinfra.readthedocs.io/">Testinfra</a> to write unit tests in Python,</li>
+    <li><a href="https://mobyproject.org/">Moby</a> to build a base image for the test container,</li>
+</ul>
+<p>The project root has a conventional layout for anyone familiar with Ansible:</p>
+<ul class="tree">
+    <li class="d">
+        project
+        <ul>
+            <li class="d">
+                roles
+                <ul>
+                    <li class="d">bob</li>
+                    <li class="d">system</li>
+                </ul>
+            </li>
+            <li class="f">Dockerfile</li>
+            <li class="f">hosts</li>
+            <li class="f">install.yml</li>
+            <li class="f">Makefile</li>
+            <li class="f">README.md</li>
+        </ul>
+    </li>
+</ul>
+<p>
+    A <a href="https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html">self-documented Makefile</a> helps
+    running common tasks:
+</p>
+{% highlight 'console' %}
+$ make
+env        Prepare environment
+lint       Lint project files
+play       Run install.yml playbook
+test       Test system role
+{% endhighlight %}
+<p>
+    With Molecule, I am able to test the main role before applying it onto the server. Tests are executed inside a local
+    container to verify its actual state:
+</p>
+{% highlight 'console' %}
+$ make test
+cd roles/system && MOLECULE_NO_LOG="false" molecule --verbose test
+[...]
+INFO     Running default > verify
+INFO     Executing Testinfra tests found in roles/system/molecule/default/tests/...
+============================= test session starts ==============================
+platform linux -- Python 3.8.6, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+plugins: testinfra-6.1.0
+collected 17 items
+
+molecule/default/tests/test_dns2tcp.py ..                                [ 11%]
+molecule/default/tests/test_dovecot.py ..                                [ 23%]
+molecule/default/tests/test_monit.py ..                                  [ 35%]
+molecule/default/tests/test_nginx.py ..                                  [ 47%]
+molecule/default/tests/test_openssh.py ..                                [ 58%]
+molecule/default/tests/test_openvpn.py ..                                [ 70%]
+molecule/default/tests/test_phpfpm.py ..                                 [ 82%]
+molecule/default/tests/test_postfix.py ..                                [ 94%]
+molecule/default/tests/test_users.py .                                   [100%]
+
+============================== 17 passed in 5.23s ==============================
+INFO     Verifier completed successfully.
+[...]
+{% endhighlight %}
+<p>
+    In about three minutes, Molecule creates a new container, configures it with the role being tested, checks if the
+    role is idempotent, executes unit tests and finally destroys the container. Pretty impressive!
+</p>
+<p>When all tests pass, I can change the server configuration with Ansible:</p>
+{% highlight 'console' %}
+$ make play
+ansible-playbook --verbose --inventory hosts --ask-become-pass --ask-vault-pass install.yml
+BECOME password:
+Vault password:
+
+PLAY [install server] **********************************************************
+[...]
+PLAY RECAP *********************************************************************
+ok=42   changed=0   unreachable=0   failed=0   skipped=0   rescued=0   ignored=0
+{% endhighlight %}
+<h2>Confidence is key</h2>
+<p>I invested time in this automation project and I must say I am quite happy with the result:</p>
+<ul>
+    <li>
+        my server configuration is safe because the project is versioned with <a href="https://git-scm.com/">Git</a> and
+        pushed to a private repository on <a href="http://github.com/trompette">GitHub</a>,
+    </li>
+    <li>
+        the services I am hosting can be installed on a new server in a matter of minutes in case something goes wrong,
+    </li>
+    <li>
+        when Debian stable is released, it will come really handy to be able to execute tests inside a local container,
+    </li>
+    <li>
+        it is always rewarding to learn about new tools and techniques.
+    </li>
+</ul>
+<p>Now that I feel confident, I can upgrade the kernel and reboot the server anytime!</p>
+<footer>{{ macros.post_footer(post) }}</footer>
+{% endblock %}

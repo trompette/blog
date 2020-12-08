@@ -21,6 +21,19 @@ article {
     padding: 0 9% 9%;
 }
 
+article ul.tree,
+article ul.tree ul {
+    list-style: none;
+}
+
+article ul.tree li.f::before {
+    content: '🗎 ';
+}
+
+article ul.tree li.d::before {
+    content: '🗀 ';
+}
+
 article footer {
     border-top: 1px solid rgb(24, 71, 93);
     margin-top: 3em;
